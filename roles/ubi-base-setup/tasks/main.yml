@@ -1,3 +1,30 @@
  # SPDX-License-Identifier: MIT-0
 ---
 # tasks file for ubi-base-setup
+- name: Install core packages
+  ansible.builtin.dnf:
+    name:
+      - git
+      - curl
+      - net-tools
+      - iputils
+    state: present
+
+- name: Create mission ops group
+  ansible.builtin.group:
+    name: ops
+    state: present
+
+- name: Add deployment user with sudo
+  ansible.builtin.user:
+    name: "{{ deployment_user | default('deployer') }}"
+    groups: wheel,ops
+    append: true
+    password: "{{ deployment_pass | password_hash('sha512') }}"
+
+- name: Configure sudoers for nopasswd
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ deployment_user }}"
+    line: "{{ deployment_user }} ALL=(ALL) NOPASSWD: ALL"
+    create: true
+    mode: '0440'
