@@ -1,6 +1,6 @@
 ---
 - name: Call ubi-base-setup role
-- hosts: all
+  hosts: all
   become: true
   roles:
     - ubi-base-setup
