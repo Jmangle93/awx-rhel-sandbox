@@ -23,7 +23,7 @@
 
 - name: Configure sudoers for nopasswd
   ansible.builtin.lineinfile:
-    path: "/etc/sudoers.d/{{ deployment_user }}"
-    line: "{{ deployment_user }} ALL=(ALL) NOPASSWD: ALL"
+    path: "/etc/sudoers.d/{{ deployment_user | default('deployer') }}"
+    line: "{{ deployment_user | default('deployer') }} ALL=(ALL) NOPASSWD: ALL"
     create: true
     mode: '0440'
