@@ -20,7 +20,7 @@
     name: "{{ deployment_user | default('deployer') }}"
     groups: wheel,ops
     append: true
-    password: "{{ deployment_pass | password_hash('sha512') }}"
+    password: "{{ vault_deployment_password | password_hash('sha512') }}"
 
 - name: Configure sudoers for nopasswd
   ansible.builtin.lineinfile:
