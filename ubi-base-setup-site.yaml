@@ -2,5 +2,7 @@
 - name: Call ubi-base-setup role
   hosts: all
   become: true
+  vars_files:
+    - /vars/passwords.yaml
   roles:
     - ubi-base-setup
